@@ -79,22 +79,28 @@ export async function sendMessageToN8N({ message, sessionId, chatHistory = [], c
       throw new Error(`n8n Webhook responded with status ${response.status} (${response.statusText}): ${errorText.slice(0, 200)}`);
     }
 
-    const contentType = response.headers.get('content-type') || '';
+    const rawText = await response.text();
     let resultText = '';
     let rawData = null;
 
-    if (contentType.includes('application/json')) {
-      const data = await response.json();
+    if (!rawText || !rawText.trim()) {
+      throw new Error(
+        "n8n Webhook-টি ফাঁকা রেসপন্স (0 bytes) পাঠিয়েছে। আপনার n8n ওয়ার্কফ্লোতে Webhook নোডের 'Respond' অপশনটি 'Using Respond to Webhook Node' করুন এবং AI Agent-এর পর একটি 'Respond to Webhook' নোড যুক্ত করুন!"
+      );
+    }
+
+    try {
+      const data = JSON.parse(rawText);
       rawData = data;
       resultText = extractTextFromN8nResponse(data);
-    } else {
+    } catch {
       // Plain text or markdown
-      resultText = await response.text();
-      rawData = { text: resultText };
+      resultText = rawText;
+      rawData = { text: rawText };
     }
 
     if (!resultText || !resultText.trim()) {
-      resultText = "*(Received an empty response from n8n webhook workflow. Check your 'Respond to Webhook' node output)*";
+      resultText = "*(Received an empty response from n8n webhook)*";
     }
 
     return {
