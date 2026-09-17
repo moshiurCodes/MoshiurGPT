@@ -4,7 +4,7 @@
  */
 
 // Default URL from Vite environment variable or configured endpoint
-export const DEFAULT_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://n8n-f2ty.srv1670697.hstgr.cloud/webhook-test/9568d0e2-07e0-4ebf-8b4a-72e278e0c3ef';
+export const DEFAULT_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL || 'https://n8n-f2ty.srv1670697.hstgr.cloud/webhook/9568d0e2-07e0-4ebf-8b4a-72e278e0c3ef';
 
 /**
  * Get active webhook URL from localStorage or fall back to default env
