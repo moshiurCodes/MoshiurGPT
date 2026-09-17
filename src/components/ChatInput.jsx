@@ -41,51 +41,39 @@ export default function ChatInput({
     <div className="chat-input-dock-wrapper">
       <div className="chat-input-container">
         <div className="chat-input-card">
-          <div className="input-textarea-row">
-            <textarea
-              ref={textareaRef}
-              className="auto-growing-textarea"
-              rows={1}
-              value={input}
-              placeholder={placeholder}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              disabled={isLoading}
-            />
-          </div>
+          <textarea
+            ref={textareaRef}
+            className="auto-growing-textarea"
+            rows={1}
+            value={input}
+            placeholder={placeholder}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            disabled={isLoading}
+          />
 
-          <div className="input-actions-row">
-            <div className="input-tools-left">
-              {/* Left tools removed per user request */}
-            </div>
-
-            <div className="input-tools-right">
-              {input.length > 50 && (
-                <span className="char-counter">{input.length} chars</span>
-              )}
-
-              {isLoading ? (
-                <button 
-                  type="button" 
-                  className="send-btn" 
-                  onClick={onStopGeneration}
-                  title="Stop generation"
-                  style={{ background: '#ef4444' }}
-                >
-                  <Square size={14} fill="#fff" />
-                </button>
-              ) : (
-                <button 
-                  type="button" 
-                  className="send-btn" 
-                  onClick={handleSubmit}
-                  disabled={!input.trim()}
-                  title="Send message (Enter)"
-                >
-                  <ArrowUp size={18} />
-                </button>
-              )}
-            </div>
+          <div className="input-actions-inline">
+            {isLoading ? (
+              <button 
+                type="button" 
+                className="send-btn" 
+                onClick={onStopGeneration}
+                title="Stop generation"
+                style={{ background: '#ef4444' }}
+              >
+                <Square size={14} fill="#fff" />
+              </button>
+            ) : (
+              <button 
+                type="button" 
+                className="send-btn" 
+                onClick={handleSubmit}
+                disabled={!input.trim()}
+                title="Send message (Enter)"
+              >
+                <ArrowUp size={18} />
+              </button>
+            )}
           </div>
         </div>
       </div>
